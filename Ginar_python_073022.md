@@ -327,12 +327,12 @@ The following packages should be installed in the exact order.
 ```commandline
 pip install cython
 pip install wheel
-pip install importlib
+pip install --upgrade importlib
 pip install numpy
 CFLAGS=-I/home/opts/openblas/include LDFLAGS=-L/home/opts/openblas/lib pip install scipy
 pip install atomate
 ```
-Note: scipy may require FLAGS to be compiled properly.
+Note: scipy may require FLAGS to be compiled and linked to your openblas properly.
 
 After this, try use pymongo MongoClient to connect a mongodb you
 have access to, and execute a read operation. If that's successful, we
