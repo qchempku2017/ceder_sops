@@ -264,7 +264,7 @@ Note: if you don't install glpk with cvxopt, cvxopt can still be compiled
 successfully, but cvxpy will throw out warning that it can not access glpk
 when you import cvxpy. Things will still work anyway.
 
-## Notes on shared libraries [Added 8/9/2022]
+## [Added 8/9/2022] Notes on shared libraries
 We have copied compiled libraries above to /share/apps/software. If you prefer not to
 compile on your own, please omit download, configure and make steps, and add the 
 paths an variables into your bashrc under /share/apps/software. When compiling python,
