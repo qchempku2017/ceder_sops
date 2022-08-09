@@ -474,8 +474,9 @@ may result in dependency failure. For example, anaconda's
 use anaconda python on this computer, it will throw out a `Segementation
 fault.` If you treasure your life and want to avoid the
 endless cycle of GINAR-hating and self-resentment, do not put yourself 
-at this risk!
-
+at this risk! (Fengyu) Personally I prefer pyenv over conda because
+its installation is cleaner, and all its dependencies are tracable and
+customizable by the user.
 
 3, If you wish every user on GINAR to be
 able to use your compilation, you can ask the admins (Yun and Xinye) to put it under /share/software.
