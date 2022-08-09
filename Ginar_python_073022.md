@@ -1,7 +1,7 @@
 # Install atomate and Python=3.9 on GINAR from scratch with `pyenv`
 Date: 2022-07-30
 
-Author: Yuxing Fei, Bowen Deng and Fengyu Xie
+Author: Yuxing Fei, Bowen Deng, Fengyu Xie and Yunyeoung Choi
 
 
 ## Checking initial .bashrc and .bash_profile
@@ -74,7 +74,7 @@ mkdir $HOME/gcc
 cd gcc-7.4.0
 
 ./contrib/download_prerequisites
-../configure --prefix=$HOME/gcc
+./configure --prefix=$HOME/gcc
 make
 make install
 
@@ -96,11 +96,11 @@ tar -zxvf binutils-2.32.tar.gz
 mkdir $HOME/binutils
 cd binutils-2.32
 
-../configure --prefix=$HOME/binutils
+./configure --prefix=$HOME/binutils
 make
 make install
 
-echo 'export PATH=$HOME/bintuils/bin:$PATH' >> ~/.bashrc
+echo 'export PATH=$HOME/binutils/bin:$PATH' >> ~/.bashrc
 echo 'export LD_LIBRARY_PATH=$HOME/binutils/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 echo 'export LIBPATH=$HOME/binutils/lib64:$LIBPATH' >> ~/.bashrc
 source ~/.bashrc
@@ -115,7 +115,8 @@ would require an update in our system kernel.
 Locally install a newer version (>=1.1) of openssl to compile python.
 ```commandline
 wget --no-check-certificate https://ftp.openssl.org/source/old/1.1.1/openssl-1.1.1g.tar.gz
-tar zxvf openssl-1.1.1g.tar.gz
+tar -zxvf openssl-1.1.1g.tar.gz
+mkdir $HOME/openssl
 cd openssl-1.1.1g
 
 mkdir build && cd build
@@ -187,6 +188,7 @@ is 0.3.5. The laterest released version does not support ginar's kernel. If you 
 version that works, please update this SOP.
 ```commandline
 wget --no-check-certificate https://github.com/xianyi/OpenBLAS/archive/refs/tags/v0.3.5.tar.gz
+mv v0.3.5.tar.gz openblas-0.3.5.tar.gz
 tar -zxvf openblas-0.3.5.tar.gz
 mkdir $HOME/openblas
 cd openblas-0.3.5
@@ -227,6 +229,7 @@ source ~/.bashrc
 cvxopt. `SuiteSparce` package does not require compilation. The latest version currently known to work is 4.5.3.
 ```commandline
 wget --no-check-certificate https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v4.5.3.tar.gz
+mv v4.5.3.tar.gz SuiteSparce-4.5.3.tar.gz
 tar -zxvf SuiteSparce-4.5.3.tar.gz
 
 echo 'export CVXOPT_SUITESPARSE_SRC_DIR=$HOME/SuiteSparse' >> ~/.bashrc
@@ -260,6 +263,12 @@ pip install cvxopt --no-binary cvxopt
 Note: if you don't install glpk with cvxopt, cvxopt can still be compiled
 successfully, but cvxpy will throw out warning that it can not access glpk
 when you import cvxpy. Things will still work anyway.
+
+## Notes on shared libraries [Added 8/9/2022]
+We have copied compiled libraries above to /share/apps/software. If you prefer not to
+compile on your own, please omit download, configure and make steps, and add the 
+paths an variables into your bashrc under /share/apps/software. When compiling python,
+you need to change flags accordingly.
 
 ## Installing pyenv
 `pyenv` is a powerful tool to manage multiple python versions and virtualenvs.
@@ -299,10 +308,12 @@ into `pyenv`. The necessary attachments are openssl, xz and sqlite3.
 
 CPPFLAGS="-I/home/<your_home>/openssl/include/ \
 -I/home/<your_home>/sqlite3/include/ \
--I/home/<your_home>/xz/include" \
+-I/home/<your_home>/xz/include/ \
+-I/home/<your_home>/libffi/include" \
 LDFLAGS="-L/home/<your_home>/openssl/lib/ \
 -L/home/<your_home>/sqlite3/lib/ \
--L/home/<your_home>/xz/lib" pyenv install 3.9.9
+-L/home/<your_home>/xz/lib. \
+-L/home/<your_home>/libffi/lib64" pyenv install 3.9.9
 
 pyenv local 3.9.9
 ```
